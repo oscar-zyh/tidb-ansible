@@ -9,7 +9,7 @@
 - name: Redhat/CentOS - install python
   raw: sudo yum -y install python
   when:
-    - "'CentOS' in distro"
+    - "'CentOS' in distro or 'Amazon Linux' in distro"
     - "not has_python"
 
 - name: Redhat/CentOS - Make sure ntp, ntpstat have been installed
@@ -19,7 +19,7 @@
   with_items:
     - ntp
   when:
-    - "'CentOS' in distro"
+    - "'CentOS' in distro or 'Amazon Linux' in distro"
     - enable_ntpd
 
 - name: Debian/Ubuntu - Make sure ntp, ntpstat have been installed

@@ -1,7 +1,11 @@
 ---
 
 - hosts: all
-  user: root
+  # user: root
+  user: ec2-user
+  become: true
+  become_user: root
+  become_method: sudo
   tasks:
     - name: create user
       user: name={{ username }} shell=/bin/bash createhome=yes

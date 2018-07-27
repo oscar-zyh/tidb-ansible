@@ -1,0 +1,46 @@
+---
+
+- hosts: all
+  user: ec2-user
+  become: true
+  become_method: sudo
+  vars:
+    disk: /dev/nvme0n1
+    partition: /dev/nvme0n1
+    mountdir: /data1
+  tasks:
+    - name: create directory
+      file:
+        path: "{{ mountdir }}"
+        state: directory
+        mode: 0755
+        owner: root
+        group: root
+
+    - name: make disk partition
+      parted:
+        align: optimal
+        device: "{{ disk }}"
+        label: gpt
+        number: 1
+        part_type: primary
+        state: present
+
+    - name: format the partition
+      filesystem:
+        fstype: ext4
+        dev: "{{ partition }}"
+
+    - name: mount the partition
+      mount:
+        fstype: ext4
+        src: "{{ partition }}"
+        path: "{{ mountdir }}"
+        opts: "defaults,nodelalloc,noatime"
+        state: mounted
+
+    - name: chmod directory
+      file:
+        path: "{{ mountdir }}"
+        state: directory
+        mode: 0777
