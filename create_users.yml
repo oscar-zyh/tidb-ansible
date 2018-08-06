@@ -1,7 +1,6 @@
 ---
 
 - hosts: all
-  # user: root
   user: ec2-user
   become: true
   become_user: root
