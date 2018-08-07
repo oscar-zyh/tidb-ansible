@@ -37,6 +37,8 @@
         labels: "{{ labels }}"
       rocksdb:
         wal-dir: "{{ wal_dir }}"
+      raftdb:
+        wal-dir: "{{ wal_dir }}/raft"
       raftstore:
         raftdb-path: "{{ raftdb_path }}"
       security:
